@@ -215,9 +215,12 @@ var panoramax = (function () {
           !_config.show_filters.includes("quality_score");
         const noFilterUser =
           Array.isArray(_config?.show_filters) && !_config.show_filters.includes("user");
+        const noFilterGps =
+          Array.isArray(_config?.show_filters) && !_config.show_filters.includes("gps");
 
         // Wrapper for clean look in legend
         _pnxMapFiltersContainer = document.createElement("li");
+        _pnxMapFiltersContainer.setAttribute("data-layerid", "panoramax");
         _pnxMapFiltersContainer.classList.add("list-group-item-pnx", "mv-layer-details"); //"list-group-item");
         _pnxMapFiltersContainer.innerHTML = `
           <div class="layerdisplay-title">
@@ -226,12 +229,14 @@ var panoramax = (function () {
               <i class="ri-close-large-line"></i>
             </a>
           </div>
-          <div class="mv-layer-options">
+          <div class="layerdisplay-legend">
             Cliquez sur les lignes oranges pour visualiser les photos. Retrouvez les options de filtre en cliquant sur la flèche ci-dessous.
           </div>
-          <div class="mv-layer-options" style="display: none">
+          <div class="mv-layer-options" style="display: none" data-layerid="panoramax">
             <pnx-map-filters-menu
               id="pnx-map-filters-menu"
+              no-source
+              ${noFilterGps ? "no-gps" : ""}
               ${noFilterDate ? "no-date" : ""}
               ${noFilterPictype ? "no-picture-type" : ""}
               ${noFilterQS ? "" : "quality-score"}
@@ -248,7 +253,11 @@ var panoramax = (function () {
           "#pnx-map-filters-menu"
         );
         _pnxMapFiltersMenu._parent = _pnxViewer;
-        _pnxMapFiltersMenu._parent._onMapFiltersChange = _onMapFiltersChange;
+        _pnxMapFiltersMenu._parent.mapStyleComposer = {
+          setPanoramaxFilters: () => _onMapFiltersChange(),
+          _hideMapFilters: () => {},
+          panoramaxFilters: {},
+        };
 
         if (_config?.filters) {
           _pnxMapFiltersMenu._onParentFilterChange(_config.filters);
@@ -261,6 +270,14 @@ var panoramax = (function () {
             }
           }
         }
+
+        const waitForSearchPopup = setInterval(() => {
+          const popup = _pnxViewer.querySelector("#pnx-filter-search-user-popup");
+          if(popup) {
+            document.querySelector("#legend").appendChild(popup);
+            clearInterval(waitForSearchPopup);
+          }
+        }, 250);
 
         _pnxMapFiltersMenu._onUserSearchResult = (e) => {
           if (e.detail) {

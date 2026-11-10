@@ -39,7 +39,7 @@ Il est possible de modifier les configurations avancées de l'extension à trave
   - `true` (défaut) : affiche tous les filtres
   - `false` : masque complètement l'affichage des filtres et l'entrée de légende
   - `[]` : masque les filtres mais conserve l'entrée de légende
-  - `["date", "picture_type", "quality_score", "user"]` : liste des filtres à proposer
+  - `["date", "picture_type", "quality_score", "user", "gps"]` : liste des filtres à proposer
 - `filters` : modifier les valeurs initiales des filtres
   - `minDate` : date minimale de prise de la photo au format `YYYY-MM-DD` (exemple `2025-01-01`)
   - `maxDate` : date maximale de prise de la photo au format `YYYY-MM-DD` (exemple `2025-06-01`)

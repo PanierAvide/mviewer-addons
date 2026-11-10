@@ -9,9 +9,8 @@
     top: calc(var(--mv-navbar-h) + 5px);
     height: calc(100% - var(--mv-navbar-h) - 20px);
     right: 10px;
-    width: calc(
-      100% - 280px
-    ); /* Width computed in JS as well for handling sidebar toggling */
+    width: calc(100% - 280px);
+    /* Width computed in JS as well for handling sidebar toggling */
     pointer-events: none;
     left: 10px;
   }
@@ -30,7 +29,7 @@
   }
 
   pnx-photo-viewer {
-    position: absolute;
+    position: absolute !important;
     inset: 0;
     overflow: hidden;
   }
@@ -46,6 +45,7 @@
     right: 0;
     display: flex;
   }
+
   .pnx-mv-btn {
     background: white;
     color: black;
@@ -53,6 +53,7 @@
     width: 26px;
     height: 26px;
   }
+
   a.pnx-mv-btn {
     text-align: center;
     text-decoration: none;
@@ -86,8 +87,8 @@
     left: 0px;
   }
 
-  pnx-widget-player > pnx-button-group > pnx-button::part(btn),
-  pnx-widget-player > pnx-button-group > pnx-togglable-group > pnx-button::part(btn) {
+  pnx-widget-player>pnx-button-group>pnx-button::part(btn),
+  pnx-widget-player>pnx-button-group>pnx-togglable-group>pnx-button::part(btn) {
     border-radius: 0px;
     height: 26px;
     width: 26px;
@@ -98,6 +99,14 @@
   pnx-photo-viewer .psv-virtual-tour-arrows,
   pnx-photo-viewer .pnx-psv-annotation {
     display: none;
+  }
+
+  @media screen and (min-width: 576px) {
+    pnx-photo-viewer pnx-widget-legend:not([light="true"]) {
+      position: absolute;
+      top: 0 !important;
+      width: unset !important;
+    }
   }
 
   /* Mobile */
@@ -145,8 +154,8 @@
       left: unset;
     }
 
-    pnx-widget-player > pnx-button-group > pnx-button::part(btn),
-    pnx-widget-player > pnx-button-group > pnx-togglable-group > pnx-button::part(btn) {
+    pnx-widget-player>pnx-button-group>pnx-button::part(btn),
+    pnx-widget-player>pnx-button-group>pnx-togglable-group>pnx-button::part(btn) {
       height: 32px;
       width: 32px;
     }
@@ -164,20 +173,12 @@
 
 <div id="panoramaxDragContainer">
   <div id="panoramaxPhotoViewerContainer">
-    <pnx-photo-viewer
-      id="panoramaxPhotoViewer"
-      widgets="false"
-      url-parameters="false"
+    <pnx-photo-viewer id="panoramaxPhotoViewer" widgets="false" url-parameters="false"
       psv-options="{transitionDuration: 700, picturesNavigation: 'seq'}">
       <pnx-widget-player size="md" slot="top-left" more="always"></pnx-widget-player>
       <pnx-widget-legend light slot="bottom-right"></pnx-widget-legend>
       <div class="pnx-mv-toolbar" slot="top-right">
-        <a
-          href=""
-          target="_blank"
-          id="panoramaxOpen"
-          class="pnx-mv-btn"
-          title="Voir sur Panoramax">
+        <a href="" target="_blank" id="panoramaxOpen" class="pnx-mv-btn" title="Voir sur Panoramax">
           <i class="fas fa-map-marker-alt"></i>
         </a>
         <button id="panoramaxDrag" class="pnx-mv-btn" title="Déplacer la photo">
